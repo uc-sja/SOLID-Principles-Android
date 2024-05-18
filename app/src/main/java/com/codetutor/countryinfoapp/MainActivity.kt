@@ -15,11 +15,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        countryList = getCountryList(applicationContext)
         setContent {
             MyCustomAppTheme {
-                CountryInfoAppScaffold(countryList)
+                CountryInfoAppScaffold()
             }
         }
     }

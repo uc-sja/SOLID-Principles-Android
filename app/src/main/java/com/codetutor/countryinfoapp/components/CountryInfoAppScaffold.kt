@@ -27,7 +27,7 @@ import com.codetutor.countryinfoapp.screens.MainScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CountryInfoAppScaffold(countryList: MutableList<Country>){
+fun CountryInfoAppScaffold(){
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -76,6 +76,6 @@ fun CountryInfoAppScaffold(countryList: MutableList<Country>){
         }
 
     ) { innerPaddingValues ->
-        MainScreen(countryList = countryList,innerPaddingValues)
+        MainScreen(innerPaddingValues)
     }
 }

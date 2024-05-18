@@ -24,7 +24,7 @@ abstract class AppDataBase: RoomDatabase(){
                     "country_database"
                 ).build()
                 INSTANCE = instance
-                INSTANCE
+                instance
             }
         }
     }
