@@ -13,6 +13,10 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
 
     val allCountries: MutableState<List<Country>> = mutableStateOf(emptyList())
     val isLoading: MutableState<Boolean> = mutableStateOf(true)
+    val showDeleteAlertDialog: MutableState<Boolean> = mutableStateOf(false)
+
+    var selectedCountryForDeletion: MutableState<Country?> = mutableStateOf(null)
+
 
     init {
         viewModelScope.launch {
@@ -31,5 +35,13 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
 
     private  suspend fun getAllCountries(){
         allCountries.value = countryRepository.getAllCountries()
+    }
+
+    suspend fun deleteCountry(){
+        selectedCountryForDeletion.value?.let {
+            countryRepository.deleteCountry(it)
+        }
+        getAllCountries()
+        selectedCountryForDeletion.value = null
     }
 }

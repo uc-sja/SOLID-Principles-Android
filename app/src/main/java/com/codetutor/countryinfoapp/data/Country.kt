@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Country(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = 0,
+    var id: Int? = null,
     var altSpellings: List<String>? = null,
     var area: Double? = null,
     var capital: List<String>? = null,
