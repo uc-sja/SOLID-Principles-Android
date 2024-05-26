@@ -55,10 +55,18 @@ fun MainScreen(innerPaddingValues: PaddingValues) {
 
                 else -> {
                     LazyColumn {
-                        items(countryList) {
+                        /*items(countryList) {
                             CountryCard(countryInfo = it,
                                 showDeleteAlertDialog = showDeleteAlertDialog,
                                 viewModel = viewModel)
+                        }*/
+
+                        items(items = countryList, key = { country -> country.id ?: 0 }) { country ->
+                            CountryCard(
+                                countryInfo = country,
+                                showDeleteAlertDialog = showDeleteAlertDialog,
+                                viewModel = viewModel
+                            )
                         }
                     }
                 }

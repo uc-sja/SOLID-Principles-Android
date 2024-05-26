@@ -38,7 +38,7 @@ fun CountryCardWithConstraintLayout(country: Country,
             .pointerInput(Unit){
                 detectTapGestures(
                     onLongPress = {
-                        Log.i("CountryCard","Long press detected")
+                        Log.i("CountryCard","Long press detected ${country.name?.common}")
                         showDeleteAlertDialog.value = true
                         viewModel.selectedCountryForDeletion.value = country
                     }

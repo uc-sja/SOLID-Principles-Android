@@ -26,12 +26,4 @@ interface CountryDao {
     //delete
     @Delete
     suspend fun delete(country: Country): Int
-
-    //update
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateCountry(country: Country): Int
-
-    //Update2
-    @Query("UPDATE Country set capital = :capital where id = :id")
-    suspend fun updateCountry(capital: List<String>, id: Int): Int
 }
