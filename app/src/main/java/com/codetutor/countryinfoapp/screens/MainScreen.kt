@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.codetutor.countryinfoapp.MyAlertDialog
+import com.codetutor.countryinfoapp.dialogs.MyAlertDialog
 import com.codetutor.countryinfoapp.components.CountryCard
 import com.codetutor.countryinfoapp.database.AppDataBase
 import com.codetutor.countryinfoapp.repository.CountryRepository
