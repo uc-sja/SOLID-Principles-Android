@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codetutor.countryinfoapp.dialogs.MyAlertDialog
 import com.codetutor.countryinfoapp.components.CountryCard
 import com.codetutor.countryinfoapp.database.AppDataBase
+import com.codetutor.countryinfoapp.dialogs.MyNewAlertDialog
 import com.codetutor.countryinfoapp.repository.CountryRepository
 import com.codetutor.countryinfoapp.ui.theme.CountryInfoAppTheme
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
@@ -38,6 +39,8 @@ fun MainScreen(innerPaddingValues: PaddingValues) {
     val countryList = viewModel.allCountries.value
     val isLoading = viewModel.isLoading.value
     val showDeleteAlertDialog = viewModel.showDeleteAlertDialog
+    val showUpdateDiloag = viewModel.showUpdateDialogAlert
+    val selectedCountryForUpdation = viewModel.selectedCountryForUpdation.value
 
     CountryInfoAppTheme {
         Surface(
@@ -65,6 +68,7 @@ fun MainScreen(innerPaddingValues: PaddingValues) {
                             CountryCard(
                                 countryInfo = country,
                                 showDeleteAlertDialog = showDeleteAlertDialog,
+                                showUpdateAlertDialog = showUpdateDiloag,
                                 viewModel = viewModel
                             )
                         }
@@ -85,4 +89,14 @@ fun MainScreen(innerPaddingValues: PaddingValues) {
             viewModel.deleteCountry()
         }
     }
+
+    MyNewAlertDialog(showDialog = showUpdateDiloag,
+        title = "Update Capital",
+        message = "Enter new capital",
+        currentCapital = selectedCountryForUpdation?.capital?.get(0) ?: "NA",
+        positiveAction = {  newCapital ->
+            viewModel.viewModelScope.launch {
+                viewModel.updateCountry(newCapital)
+            }
+        })
 }

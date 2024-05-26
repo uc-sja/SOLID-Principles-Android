@@ -29,6 +29,7 @@ import kotlinx.serialization.json.Json
 @Composable
 fun CountryCardWithConstraintLayout(country: Country,
                                     showDeleteAlertDialog: MutableState<Boolean>,
+                                    showUpdateAlertDialog: MutableState<Boolean>,
                                     viewModel: CountryViewModel){
     ConstraintLayout(
         modifier = Modifier
@@ -37,6 +38,10 @@ fun CountryCardWithConstraintLayout(country: Country,
             .padding(5.dp)
             .pointerInput(Unit){
                 detectTapGestures(
+                    onDoubleTap = {
+                        viewModel.selectedCountryForUpdation.value = country
+                        showUpdateAlertDialog.value = true
+                    },
                     onLongPress = {
                         Log.i("CountryCard","Long press detected ${country.name?.common}")
                         showDeleteAlertDialog.value = true

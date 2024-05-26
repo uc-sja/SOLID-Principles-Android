@@ -22,6 +22,7 @@ import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
 @Composable
 fun CountryCard(countryInfo: Country,
                 showDeleteAlertDialog: MutableState<Boolean>,
+                showUpdateAlertDialog: MutableState<Boolean>,
                 viewModel: CountryViewModel) {
     Surface(
         modifier = Modifier
@@ -36,6 +37,7 @@ fun CountryCard(countryInfo: Country,
     ) {
         CountryCardWithConstraintLayout(country = countryInfo,
             showDeleteAlertDialog,
+            showUpdateAlertDialog,
             viewModel)
     }
 }
