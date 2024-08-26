@@ -1,5 +1,6 @@
 package com.codetutor.countryinfoapp.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Filter
 import androidx.compose.material.icons.filled.MoreVert
@@ -15,12 +16,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import com.codetutor.countryinfoapp.data.Country
 import com.codetutor.countryinfoapp.screens.MainScreen
 
@@ -30,6 +36,9 @@ import com.codetutor.countryinfoapp.screens.MainScreen
 fun CountryInfoAppScaffold(){
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+
+    var selectedFilter: MutableState<String?> =  mutableStateOf(null)
+    var filterByKey : MutableState<String> =  mutableStateOf("")
 
     Scaffold (
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -62,8 +71,19 @@ fun CountryInfoAppScaffold(){
         },
         bottomBar = {
             BottomAppBar {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
+                FilterCountryChips("Continent", selectedFilter)
+                FilterCountryChips("Drive Side", selectedFilter)
+
+                if (selectedFilter.value != null) {
+                    TextField(
+                        value = filterByKey.value,
+                        onValueChange = { newValue ->
+                            filterByKey.value = newValue
+                        },
+                        modifier = Modifier.padding(3.dp),
+                        label = { Text("") },
+                        singleLine = true,
+                    )
                 }
             }
         },
