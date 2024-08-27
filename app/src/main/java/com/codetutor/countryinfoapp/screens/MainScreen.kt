@@ -10,6 +10,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,6 +19,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codetutor.countryinfoapp.dialogs.MyAlertDialog
 import com.codetutor.countryinfoapp.components.CountryCard
+import com.codetutor.countryinfoapp.components.ObserveIsLoadingChanges
 import com.codetutor.countryinfoapp.database.AppDataBase
 import com.codetutor.countryinfoapp.dialogs.MyNewAlertDialog
 import com.codetutor.countryinfoapp.repository.CountryRepository
@@ -30,10 +33,13 @@ fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
     val context = LocalContext.current
 
     val countryList = viewModel.allCountries.value
-    val isLoading = viewModel.isLoading.value
     val showDeleteAlertDialog = viewModel.showDeleteAlertDialog
     val showUpdateDiloag = viewModel.showUpdateDialogAlert
     val selectedCountryForUpdation = viewModel.selectedCountryForUpdation.value
+
+    val isLoading = viewModel.isLoading
+
+    ObserveIsLoadingChanges(isLoading = isLoading, viewModel = viewModel)
 
     CountryInfoAppTheme {
         Surface(
@@ -43,7 +49,7 @@ fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
             color = MaterialTheme.colorScheme.surface
         ) {
             when {
-                isLoading -> {
+                isLoading.value -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }

@@ -44,6 +44,8 @@ suspend fun filterBy(
                 viewModel.filterCountryByDriveSide()
             }
         }
+
+        Log.i("FilterCriteria", "After filtering the size is  ${viewModel.allCountries.value.size}")
     } else {
         Log.i("FilterCriteria", "No filter criteria selected")
         viewModel.getAllCountries()

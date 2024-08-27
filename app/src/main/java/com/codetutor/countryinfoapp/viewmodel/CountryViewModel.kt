@@ -23,6 +23,8 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
     var selectedFilter: MutableState<String?> =  mutableStateOf(null)
     var filterByKey : MutableState<String> =  mutableStateOf("")
 
+    val filteredCountryList : MutableState<List<Country>> = mutableStateOf(emptyList())
+
     init {
         viewModelScope.launch {
             fetchAndInsertAll()
@@ -40,11 +42,6 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
 
     suspend fun getAllCountries(){
         allCountries.value = countryRepository.getAllCountries()
-    }
-
-    // Reset the allCountries list
-    suspend fun resetAllCountries(){
-        getAllCountries()
     }
 
     suspend fun deleteCountry(){
@@ -67,14 +64,32 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
     }
 
     suspend fun filterCountryByContinent(){
-       val filteredByContinent  = allCountries.value.filter { it.continents?.contains(filterByKey.value) ?: false }
-        Log.i("FilterCriteria", "Filtered by Continent ${filteredByContinent.size})")
-        allCountries.value = filteredByContinent
+        isLoading.value = true
+        val filteredByContinent  = allCountries.value.filter { it.continents?.contains(filterByKey.value) ?: false }
+        Log.i("FilterCriteria", "Filtered by Continent ${filteredByContinent.size}")
+        filteredCountryList.value = filteredByContinent
+        filteredCountryList.value.let {
+            when {
+                it.isNotEmpty() -> {
+                    allCountries.value = it
+                    isLoading.value = false
+                }
+            }
+        }
     }
 
     suspend fun filterCountryByDriveSide(){
+        isLoading.value = true
         val filteredByDriveSide   = allCountries.value.filter { it.car?.side?.equals(filterByKey.value) ?: false }
-        Log.i("FilterCriteria", "Filtered by Drive Side ${filteredByDriveSide.size})")
-        allCountries.value = filteredByDriveSide
+        Log.i("FilterCriteria", "Filtered by Drive Side ${filteredByDriveSide.size}")
+        filteredCountryList.value = filteredByDriveSide
+        filteredCountryList.value.let {
+            when {
+                it.isNotEmpty() -> {
+                    allCountries.value = it
+                    isLoading.value = false
+                }
+            }
+        }
     }
 }
