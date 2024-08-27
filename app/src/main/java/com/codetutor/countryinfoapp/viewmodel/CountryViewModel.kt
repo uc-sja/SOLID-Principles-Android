@@ -1,5 +1,6 @@
 package com.codetutor.countryinfoapp.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,9 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
     var selectedCountryForDeletion: MutableState<Country?> = mutableStateOf(null)
     var selectedCountryForUpdation: MutableState<Country?> = mutableStateOf(null)
 
+    var selectedFilter: MutableState<String?> =  mutableStateOf(null)
+    var filterByKey : MutableState<String> =  mutableStateOf("")
+
     init {
         viewModelScope.launch {
             fetchAndInsertAll()
@@ -34,8 +38,13 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
         isLoading.value = false
     }
 
-    private  suspend fun getAllCountries(){
+    suspend fun getAllCountries(){
         allCountries.value = countryRepository.getAllCountries()
+    }
+
+    // Reset the allCountries list
+    suspend fun resetAllCountries(){
+        getAllCountries()
     }
 
     suspend fun deleteCountry(){
@@ -55,5 +64,17 @@ class CountryViewModel (private val countryRepository: CountryRepository): ViewM
         }
         selectedCountryForUpdation.value = null
         showUpdateDialogAlert.value = false
+    }
+
+    suspend fun filterCountryByContinent(){
+       val filteredByContinent  = allCountries.value.filter { it.continents?.contains(filterByKey.value) ?: false }
+        Log.i("FilterCriteria", "Filtered by Continent ${filteredByContinent.size})")
+        allCountries.value = filteredByContinent
+    }
+
+    suspend fun filterCountryByDriveSide(){
+        val filteredByDriveSide   = allCountries.value.filter { it.car?.side?.equals(filterByKey.value) ?: false }
+        Log.i("FilterCriteria", "Filtered by Drive Side ${filteredByDriveSide.size})")
+        allCountries.value = filteredByDriveSide
     }
 }

@@ -26,15 +26,8 @@ import com.codetutor.countryinfoapp.viewmodel.CountryViewModelFactory
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(innerPaddingValues: PaddingValues) {
+fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
     val context = LocalContext.current
-    //Initialise Dao
-    val countryDao = AppDataBase.getDataBase(context.applicationContext)?.countryDao()
-    //Initialise the Repository
-    val countryRepository = countryDao?.let { CountryRepository(context, it) }
-    //Initialise the ViewModel
-    val viewModel: CountryViewModel =
-        viewModel(factory = countryRepository?.let { CountryViewModelFactory(repository = it) })
 
     val countryList = viewModel.allCountries.value
     val isLoading = viewModel.isLoading.value

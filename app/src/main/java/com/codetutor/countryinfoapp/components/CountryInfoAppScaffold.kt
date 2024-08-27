@@ -26,9 +26,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codetutor.countryinfoapp.data.Country
+import com.codetutor.countryinfoapp.database.AppDataBase
+import com.codetutor.countryinfoapp.repository.CountryRepository
 import com.codetutor.countryinfoapp.screens.MainScreen
+import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
+import com.codetutor.countryinfoapp.viewmodel.CountryViewModelFactory
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +43,17 @@ fun CountryInfoAppScaffold(){
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    var selectedFilter: MutableState<String?> =  mutableStateOf(null)
-    var filterByKey : MutableState<String> =  mutableStateOf("")
+    val context = LocalContext.current
+    //Initialise Dao
+    val countryDao = AppDataBase.getDataBase(context.applicationContext)?.countryDao()
+    //Initialise the Repository
+    val countryRepository = countryDao?.let { CountryRepository(context, it) }
+    //Initialise the ViewModel
+    val viewModel: CountryViewModel =
+        viewModel(factory = countryRepository?.let { CountryViewModelFactory(repository = it) })
+
+
+    ObserveFilterKeyChanges(viewModel.filterByKey, viewModel.selectedFilter, viewModel)
 
     Scaffold (
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -71,14 +86,14 @@ fun CountryInfoAppScaffold(){
         },
         bottomBar = {
             BottomAppBar {
-                FilterCountryChips("Continent", selectedFilter)
-                FilterCountryChips("Drive Side", selectedFilter)
+                FilterCountryChips("Continent", viewModel.selectedFilter)
+                FilterCountryChips("Drive Side", viewModel.selectedFilter)
 
-                if (selectedFilter.value != null) {
+                if (viewModel.selectedFilter.value != null) {
                     TextField(
-                        value = filterByKey.value,
+                        value = viewModel.filterByKey.value,
                         onValueChange = { newValue ->
-                            filterByKey.value = newValue
+                            viewModel.filterByKey.value = newValue
                         },
                         modifier = Modifier.padding(3.dp),
                         label = { Text("") },
@@ -96,6 +111,6 @@ fun CountryInfoAppScaffold(){
         }
 
     ) { innerPaddingValues ->
-        MainScreen(innerPaddingValues)
+        MainScreen(innerPaddingValues, viewModel)
     }
 }
