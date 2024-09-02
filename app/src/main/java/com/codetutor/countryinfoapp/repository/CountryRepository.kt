@@ -2,18 +2,20 @@ package com.codetutor.countryinfoapp.repository
 
 import android.content.Context
 import com.codetutor.countryinfoapp.data.Country
-import com.codetutor.countryinfoapp.database.CountryDao
+import com.codetutor.countryinfoapp.database.dao.CountryDao
+import com.codetutor.countryinfoapp.database.dao.ICountryDao
 import com.codetutor.countryinfoapp.util.getCountryList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class CountryRepository(private val context: Context, private val countryDao: CountryDao) {
+class CountryRepository(private val context: Context,
+                        private val countryDao: ICountryDao): ICountryRepository {
     private val contextForRepository = context.applicationContext
     private var allCountries: List<Country> = emptyList()
 
     //fetchAndInsertAll
-    suspend fun fetchAndInsertAll() = withContext(Dispatchers.IO){
+    override suspend fun fetchAndInsertAll() = withContext(Dispatchers.IO){
         val allCountries = getAllCountries()
         if(allCountries.isNotEmpty()){
             return@withContext
@@ -25,7 +27,7 @@ class CountryRepository(private val context: Context, private val countryDao: Co
         }
     }
 
-    suspend fun getAllCountries(): List<Country> = withContext(Dispatchers.IO){
+    override suspend fun getAllCountries(): List<Country> = withContext(Dispatchers.IO){
         if(allCountries.isNotEmpty()){
             return@withContext allCountries
         }else {
@@ -34,12 +36,12 @@ class CountryRepository(private val context: Context, private val countryDao: Co
         }
     }
 
-    suspend fun deleteCountry(country: Country) = withContext(Dispatchers.IO){
+    override suspend fun deleteCountry(country: Country) = withContext(Dispatchers.IO){
         countryDao.delete(country)
         allCountries = countryDao.getAllCountries()
     }
 
-    suspend fun updateCapital(country: Country, newCapital: String) = withContext(Dispatchers.IO){
+    override suspend fun updateCapital(country: Country, newCapital: String) = withContext(Dispatchers.IO){
         val parsedString = "[\"${newCapital}\"]"
         val parsedArray = Json.decodeFromString<List<String>>(parsedString)
         val updatedCountry = country?.copy(capital = parsedArray)
