@@ -51,15 +51,3 @@ suspend fun filterBy(
         viewModel.getAllCountries()
     }
 }
-
-fun determineFilterCriteria(selectedFilterValue: String, filterKey: String) = when(selectedFilterValue) {
-    "Continent" -> {
-        //ToDo - Filter by Continent
-    }
-    "Drive Side" -> {
-        //ToDo - Filter by driveSide
-    }
-    else -> {
-        null
-    }
-}
