@@ -30,7 +30,7 @@ interface CountryDao: ICountryDao {
     @Query("Update Country set capital = :capital where id = :id")
     override suspend fun updateCapital(capital: List<String>, id: Int): Int
 
-   @Query("Update Country set capital = :capital where id = :id")
-   suspend fun updateCountryCapital(capital: List<String>, id: Int)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun updateCountry(country: Country): Int
 
 }
