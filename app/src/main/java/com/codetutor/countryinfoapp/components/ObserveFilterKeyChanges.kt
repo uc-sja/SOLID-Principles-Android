@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import com.codetutor.countryinfoapp.repository.FilterByContinent
+import com.codetutor.countryinfoapp.repository.FilterByDriveSide
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
 
 
@@ -36,12 +38,12 @@ suspend fun filterBy(
             "Continent" -> {
                 //ToDo - Filter by Continent
                 Log.i("FilterCriteria", "Filtering by Continent $filterKey")
-                viewModel.filterCountryByContinent()
+                viewModel.filterCountries(FilterByContinent(filterKey))
             }
             "Drive Side" -> {
                 //ToDo - Filter by driveSide
                 Log.i("FilterCriteria", "Filtering by driveSide $filterKey")
-                viewModel.filterCountryByDriveSide()
+                viewModel.filterCountries(FilterByDriveSide(filterKey))
             }
         }
 

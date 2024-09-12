@@ -30,6 +30,7 @@ import com.codetutor.countryinfoapp.repository.CountryRepository
 import com.codetutor.countryinfoapp.screens.MainScreen
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModelFactory
+import kotlinx.coroutines.Dispatchers
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +43,7 @@ fun CountryInfoAppScaffold(){
     //Initialise Dao
     val countryDao = AppDataBase.getDataBase(context.applicationContext)?.countryDao()
     //Initialise the Repository
-    val countryRepository = countryDao?.let { CountryRepository(context, it) }
+    val countryRepository = countryDao?.let { CountryRepository(context, it, Dispatchers.IO) }
     //Initialise the ViewModel
     val viewModel: CountryViewModel =
         viewModel(factory = countryRepository?.let { CountryViewModelFactory(repository = it) })

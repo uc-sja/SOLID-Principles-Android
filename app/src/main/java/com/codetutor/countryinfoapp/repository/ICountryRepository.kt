@@ -7,5 +7,5 @@ interface ICountryRepository {
     suspend fun getAllCountries(): List<Country>
     suspend fun deleteCountry(country: Country)
     suspend fun updateCapital(country: Country, newCapital: String)
-    //suspend fun filterCountries(filterCriteria: FilterCriteria): List<Country>
+    suspend fun filterCountries(filterCriteria: FilterCriteria): List<Country>
 }
