@@ -30,26 +30,16 @@ suspend fun filterBy(
     selectedFilterValue: String?,
     viewModel: CountryViewModel
 ) {
-    Log.i("FilterCriteria", "Selected Filter value $selectedFilterValue!!")
-    Log.i("FilterCriteria", "Selected Filter filterKey $filterKey")
     if (filterKey.isNotEmpty()) {
-        //val filterCriteria = determineFilterCriteria(selectedFilterValue!!, filterKey)
        when (selectedFilterValue) {
             "Continent" -> {
-                //ToDo - Filter by Continent
-                Log.i("FilterCriteria", "Filtering by Continent $filterKey")
                 viewModel.filterCountries(FilterByContinent(filterKey))
             }
             "Drive Side" -> {
-                //ToDo - Filter by driveSide
-                Log.i("FilterCriteria", "Filtering by driveSide $filterKey")
                 viewModel.filterCountries(FilterByDriveSide(filterKey))
             }
         }
-
-        Log.i("FilterCriteria", "After filtering the size is  ${viewModel.allCountries.value.size}")
     } else {
-        Log.i("FilterCriteria", "No filter criteria selected")
         viewModel.getAllCountries()
     }
 }
