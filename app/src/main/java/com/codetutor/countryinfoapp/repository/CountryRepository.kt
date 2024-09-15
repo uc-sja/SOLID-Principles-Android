@@ -4,17 +4,17 @@ import android.content.Context
 import com.codetutor.countryinfoapp.data.Country
 import com.codetutor.countryinfoapp.database.dao.CountryDao
 import com.codetutor.countryinfoapp.database.dao.ICountryDao
+import com.codetutor.countryinfoapp.repository.service.CountryListServiceProvider
 import com.codetutor.countryinfoapp.util.getCountryList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class CountryRepository(private val context: Context,
+class CountryRepository(private val countryListServiceProvider: CountryListServiceProvider,
                         private val countryDao: ICountryDao,
                         private val dispatcher: CoroutineDispatcher
 ): ICountryRepository {
-    private val contextForRepository = context.applicationContext
     private var allCountries: List<Country> = emptyList()
 
     //fetchAndInsertAll
@@ -23,8 +23,7 @@ class CountryRepository(private val context: Context,
         if(allCountries.isNotEmpty()){
             return@withContext
         }else {
-            val countryMutableList = getCountryList(contextForRepository)
-            val countryList: List<Country> = countryMutableList.toList()
+            val countryList: List<Country> = countryListServiceProvider.getCountryList()
             countryDao.insertAll(countryList)
             return@withContext
         }

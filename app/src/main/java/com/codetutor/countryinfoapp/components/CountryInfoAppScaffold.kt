@@ -27,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.codetutor.countryinfoapp.database.appdb.AppDataBase
 import com.codetutor.countryinfoapp.repository.CountryRepository
+import com.codetutor.countryinfoapp.repository.service.CountryListProviderViaNetwork
+import com.codetutor.countryinfoapp.repository.service.CountryListServiceProvider
+import com.codetutor.countryinfoapp.repository.service.CountryListServiceProviderImpl
 import com.codetutor.countryinfoapp.screens.MainScreen
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
 import com.codetutor.countryinfoapp.viewmodel.CountryViewModelFactory
@@ -43,7 +46,8 @@ fun CountryInfoAppScaffold(){
     //Initialise Dao
     val countryDao = AppDataBase.getDataBase(context.applicationContext)?.countryDao()
     //Initialise the Repository
-    val countryRepository = countryDao?.let { CountryRepository(context, it, Dispatchers.IO) }
+    val serviceProvider: CountryListServiceProvider = CountryListProviderViaNetwork()
+    val countryRepository = countryDao?.let { CountryRepository(serviceProvider, it, Dispatchers.IO) }
     //Initialise the ViewModel
     val viewModel: CountryViewModel =
         viewModel(factory = countryRepository?.let { CountryViewModelFactory(repository = it) })
