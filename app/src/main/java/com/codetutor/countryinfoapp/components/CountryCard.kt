@@ -1,29 +1,24 @@
 package com.codetutor.countryinfoapp.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.codetutor.countryinfoapp.data.Country
-import com.codetutor.countryinfoapp.ui.theme.borderColorBlack
-import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
+import com.codetutor.countryinfoapp.viewmodel.CountryOperationViewModel
 
 @Composable
 fun CountryCard(countryInfo: Country,
                 showDeleteAlertDialog: MutableState<Boolean>,
                 showUpdateAlertDialog: MutableState<Boolean>,
-                viewModel: CountryViewModel) {
+                viewModel: CountryOperationViewModel) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(1.0f)

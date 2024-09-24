@@ -19,18 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 import com.codetutor.countryinfoapp.data.Country
-import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
-import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
+import com.codetutor.countryinfoapp.viewmodel.CountryOperationViewModel
 
 @Composable
 fun CountryCardWithConstraintLayout(country: Country,
                                     showDeleteAlertDialog: MutableState<Boolean>,
                                     showUpdateAlertDialog: MutableState<Boolean>,
-                                    viewModel: CountryViewModel){
+                                    viewModel: CountryOperationViewModel){
     ConstraintLayout(
         modifier = Modifier
             .wrapContentHeight()

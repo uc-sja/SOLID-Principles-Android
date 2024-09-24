@@ -10,6 +10,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,19 +21,25 @@ import com.codetutor.countryinfoapp.components.CountryCard
 import com.codetutor.countryinfoapp.components.ObserveIsLoadingChanges
 import com.codetutor.countryinfoapp.dialogs.MyNewAlertDialog
 import com.codetutor.countryinfoapp.ui.theme.CountryInfoAppTheme
-import com.codetutor.countryinfoapp.viewmodel.CountryViewModel
+import com.codetutor.countryinfoapp.viewmodel.CountryOperationViewModel
+import com.codetutor.countryinfoapp.viewmodel.CountryUIViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
+fun MainScreen(innerPaddingValues: PaddingValues,
+               viewModel: CountryOperationViewModel,
+               viewModelUI: CountryUIViewModel) {
     val context = LocalContext.current
 
     val countryList = viewModel.allCountries.value
-    val showDeleteAlertDialog = viewModel.showDeleteAlertDialog
-    val showUpdateDiloag = viewModel.showUpdateDialogAlert
-    val selectedCountryForUpdation = viewModel.selectedCountryForUpdation.value
+    val showDeleteAlertDialog = viewModelUI.showDeleteAlertDialog
+    val showUpdateDiloag = viewModelUI.showUpdateDialogAlert
+    val selectedCountryForDeletion = viewModelUI.selectedCountryForDeletion
+    val selectedCountryForUpdation = viewModelUI.selectedCountryForUpdation.value
 
-    val isLoading = viewModel.isLoading
+    val isLoading = remember {
+        mutableStateOf(value = false)
+    }
 
     ObserveIsLoadingChanges(isLoading = isLoading, viewModel = viewModel)
 
@@ -79,7 +87,10 @@ fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
         message = "Do you want to delete this country?"
     ) {
         viewModel.viewModelScope.launch {
-            viewModel.deleteCountry()
+            selectedCountryForDeletion.let {
+                viewModel.deleteCountry(it.value!!)
+                selectedCountryForDeletion.value = null
+            }
         }
     }
 
@@ -89,7 +100,9 @@ fun MainScreen(innerPaddingValues: PaddingValues, viewModel: CountryViewModel) {
         currentCapital = selectedCountryForUpdation?.capital?.get(0) ?: "NA",
         positiveAction = {  newCapital ->
             viewModel.viewModelScope.launch {
-                viewModel.updateCountry(newCapital)
+                selectedCountryForUpdation?.let {
+                    viewModel.updateCountry(it, newCapital)
+                }
             }
         })
 }
