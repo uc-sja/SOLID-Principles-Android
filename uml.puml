@@ -1,0 +1,269 @@
+@startuml
+class com.codetutor.countryinfoapp.data.Country {
++ <<Create>> Country(Int?,List<String>?,Double?,List<String>?,CapitalInfo?,Car?,String?,String?,String?,CoatOfArms?,List<String>?,Map<String, Currency>?,Demonyms?,String?,Flags?,Idd?,Boolean?,Boolean?,Languages?,List<Double>?,Maps?,Name?,Int?,String?,String?,String?,String?,List<String>?,List<String>?,Translations?,Boolean?)
+}
+
+class com.codetutor.countryinfoapp.database.TranslationsConverter {
++ String fromTranslations(Translations)
++ Translations toTranslations(String)
+}
+
+class com.codetutor.countryinfoapp.data.Ita {
++ <<Create>> Ita(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.database.UpdateCountryInfo {
++ <<Create>> UpdateCountryInfo(Country?,String?)
+}
+
+interface com.codetutor.countryinfoapp.database.CountryDao {
++ List<Country> getAllCountries()
++ List<Country> getCountriesByContinent(String)
++ void insertAll(List<Country>)
++ void delete(Country)
++ Int updateCapital(List<String>,Int)
++ Int updateCountry(Country)
+}
+
+class com.codetutor.countryinfoapp.data.Per {
++ <<Create>> Per(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.repository.CountryRepository {
+- Context contextForRepo
+- List<Country> allCountries
++ <<Create>> CountryRepository(Context,CountryDao)
++ void fetchAndInsertAll()
++ List<Country> getAllCountries()
++ void deleteCountry(Country)
++ void updateCapital(Country,String)
+}
+
+
+class com.codetutor.countryinfoapp.data.Idd {
++ <<Create>> Idd(String?,List<String>?)
+}
+
+class com.codetutor.countryinfoapp.data.Hrv {
++ <<Create>> Hrv(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.MainActivity {
++ void onCreate(Bundle?)
+}
+
+class com.codetutor.countryinfoapp.data.NativeName {
++ <<Create>> NativeName(Nor?)
+}
+
+class com.codetutor.countryinfoapp.data.Est {
++ <<Create>> Est(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Swe {
++ <<Create>> Swe(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Translations {
++ <<Create>> Translations(Ara?,Bre?,Ces?,Cym?,Deu?,Est?,Fin?,Fra?,Hrv?,Hun?,Ita?,Jpn?,Kor?,Nld?,Per?,Pol?,Por?,Rus?,Slk?,Spa?,Srp?,Swe?,Tur?,Urd?,Zho?)
+}
+
+class com.codetutor.countryinfoapp.data.Jpn {
++ <<Create>> Jpn(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Nor {
++ <<Create>> Nor(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.database.Converters {
+-  jsonFormat
++ String? fromStringListToJson(List<String>?)
++ List<String>? fromJsonToStringList(String?)
++ String? fromCapitalInfoToJson(CapitalInfo?)
++ CapitalInfo? fromJsonToCapitalInfo(String?)
++ String? fromDoubleListToJson(List<Double>?)
++ String? fromCarToJson(Car?)
++ Car? fromJsonToCar(String?)
++ String? fromFlagsToJson(Flags?)
++ Flags? fromJsonToFlags(String?)
++ String? fromMapsToJson(Maps?)
++ Maps? fromJsonToMaps(String?)
++ String? fromLanguagesToJson(Languages?)
++ Languages? fromJsonToLanguages(String?)
++ String? fromIddToJson(Idd?)
++ Idd? fromJsonToIdd(String?)
++ String? fromNameToJson(Name?)
++ Name? fromJsonToName(String?)
++ String? fromNativeNameToJson(NativeName?)
++ NativeName? fromJsonToNativeName(String?)
++ List<Double>? fromJsonToDoubleList(String?)
++ String? fromCurrencyMapToJson(Map<String, Currency>?)
++ Map<String, Currency>? fromJsonToCurrencyMap(String?)
+}
+
+
+class com.codetutor.countryinfoapp.data.Deu {
++ <<Create>> Deu(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Languages {
++ <<Create>> Languages(String?)
+}
+
+class com.codetutor.countryinfoapp.data.CoatOfArms {
+}
+class com.codetutor.countryinfoapp.data.Spa {
++ <<Create>> Spa(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Name {
++ <<Create>> Name(String?,NativeName?,String?)
+}
+
+class com.codetutor.countryinfoapp.viewmodel.CountryViewModel {
++ MutableState<List<Country>> allCountries
++ MutableState<Boolean> isLoading
++ MutableState<Boolean> showDeleteAlertDialog
++ MutableState<Boolean> showUpdateCapitalDialog
++ MutableState<Country?> selectedCountryForDeletion
++ MutableState<Country?> updateCountryInfo
++ <<Create>> CountryViewModel(CountryRepository)
+- void getAllCountries()
++ void deleteCountry()
+- void fetchAndInsertAll()
++ void updateCapital(String)
+}
+
+
+class com.codetutor.countryinfoapp.data.CapitalInfo {
++ <<Create>> CapitalInfo(List<Double>?)
+}
+
+class com.codetutor.countryinfoapp.data.Demonyms {
++ <<Create>> Demonyms(Eng?)
+}
+
+class com.codetutor.countryinfoapp.data.Bre {
++ <<Create>> Bre(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Zho {
++ <<Create>> Zho(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Hun {
++ <<Create>> Hun(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Eng {
++ <<Create>> Eng(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Slk {
++ <<Create>> Slk(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Ara {
++ <<Create>> Ara(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Pol {
++ <<Create>> Pol(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Car {
++ <<Create>> Car(String?,List<String>?)
+}
+
+class com.codetutor.countryinfoapp.data.Tur {
++ <<Create>> Tur(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Srp {
++ <<Create>> Srp(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Urd {
++ <<Create>> Urd(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Currency {
++ <<Create>> Currency(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Rus {
++ <<Create>> Rus(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Kor {
++ <<Create>> Kor(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.screens.CountryViewModelFactory {
++ <<Create>> CountryViewModelFactory(CountryRepository)
++ T create(Class<T>)
+}
+
+class com.codetutor.countryinfoapp.data.Fin {
++ <<Create>> Fin(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Fra {
++ <<Create>> Fra(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.NOK {
++ <<Create>> NOK(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Ces {
++ <<Create>> Ces(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Maps {
++ <<Create>> Maps(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Cym {
++ <<Create>> Cym(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Por {
++ <<Create>> Por(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.data.Nld {
++ <<Create>> Nld(String?,String?)
+}
+
+class CountryEntity {
++ <<Create>> CountryEntity(Int,String?,Double?,String?,String?,String?,String?,String?,String?,String?,Boolean?,Boolean?,String?,String?,String?,Int?,String?,String?,String?,String?,String?,String?,Translations?,Boolean?)
+}
+
+class com.codetutor.countryinfoapp.data.Flags {
++ <<Create>> Flags(String?,String?)
+}
+
+class com.codetutor.countryinfoapp.database.AppDatabase$Companion {
+- AppDatabase? INSTANCE
++ AppDatabase getDatabase(Context)
+}
+
+
+abstract class com.codetutor.countryinfoapp.database.AppDatabase {
++ CountryDao countryDao()
+}
+
+class com.codetutor.countryinfoapp.data.CountryInfo {
++ <<Create>> CountryInfo(Int,String,String,String,String,String,String,String,String,String)
+}
+
+
+
+androidx.activity.ComponentActivity <|-- com.codetutor.countryinfoapp.MainActivity
+androidx.lifecycle.ViewModel <|-- com.codetutor.countryinfoapp.viewmodel.CountryViewModel
+com.codetutor.countryinfoapp.screens.Factory <|.. com.codetutor.countryinfoapp.screens.CountryViewModelFactory
+com.codetutor.countryinfoapp.database.AppDatabase +.. com.codetutor.countryinfoapp.database.AppDatabase$Companion
+androidx.room.RoomDatabase <|-- com.codetutor.countryinfoapp.database.AppDatabase
+@enduml
