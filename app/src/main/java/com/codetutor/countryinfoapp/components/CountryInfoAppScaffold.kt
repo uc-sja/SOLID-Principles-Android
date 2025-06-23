@@ -29,6 +29,7 @@ import com.codetutor.countryinfoapp.database.appdb.AppDataBase
 import com.codetutor.countryinfoapp.repository.CountryRepository
 import com.codetutor.countryinfoapp.repository.service.CountryListProviderViaNetwork
 import com.codetutor.countryinfoapp.repository.service.CountryListServiceProvider
+import com.codetutor.countryinfoapp.repository.service.CountryListServiceProviderImpl
 import com.codetutor.countryinfoapp.screens.MainScreen
 import com.codetutor.countryinfoapp.viewmodel.CountryOperationViewModel
 import com.codetutor.countryinfoapp.viewmodel.CountryUIViewModel
@@ -46,7 +47,7 @@ fun CountryInfoAppScaffold(){
     //Initialise Dao
     val countryDao = AppDataBase.getDataBase(context.applicationContext)?.countryDao()
     //Initialise the Repository
-    val serviceProvider: CountryListServiceProvider = CountryListProviderViaNetwork()
+    val serviceProvider: CountryListServiceProvider = CountryListServiceProviderImpl(context)
     val countryRepository = countryDao?.let { CountryRepository(serviceProvider, it, Dispatchers.IO) }
     //Initialise the ViewModel
     val uiViewModel: CountryUIViewModel = CountryUIViewModel()
